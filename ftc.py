@@ -6,6 +6,8 @@ import re
 cpf_regex  = "^\d{3}\.\d{3}\.\d{3}\-\d{2}$"
 data_regex = "([12]\d{3}.(0[1-9]|1[0-2]).(0[1-9]|[12]\d|3[01]))"
 hour_regex = "^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
+cnpj_regex = "^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}"
+
 
 def trata_entrada(entrada):
     tratada = entrada.split(" ") 
@@ -46,10 +48,10 @@ def valida_formato_cpf(entrada):
     calc = lambda t: int(t[1]) * (t[0] + 2)
     d1 = (sum(map(calc, enumerate(reversed(entrada[:-2])))) * 10) % 11
     d2 = (sum(map(calc, enumerate(reversed(entrada[:-1])))) * 10) % 11
-    return str(d1) == entrada[-2] and str(d2) == entrada[-1]
+    return str(d1) == entrada[-2] and str(d2) == entrada[-1] 
 
-def valida_cod_transacao (cod):
-    cod_transacao = cod.split("-")
+def valida_cod_transacao (entrada):
+    cod_transacao = entrada.split("-")
     match1 = re.search(r"[0-9]{9}",cod_transacao[0])
     match2 = re.search(r"(?!([a-z0-9])*.*\1)([a-z0-9]){5}",cod_transacao[1])
     match3 = re.search(r"([02468]){3}",cod_transacao[2])
@@ -85,12 +87,13 @@ def valida_hora(entrada):
     else:
         print ('Error')
 
-def trata_verificador(n):
-    if n<2:
-        i = 0
+def valida_preco(entrada):
+    match = re.search(r"^\[([0-9]+.[0-9]{2})(,([0-9])+.([0-9]){2})*\]$", entrada)
+    print (match)
+    if match:
+        return True
     else:
-        i = 11-n
-    return i
+        return False
 
 entrada = input()
 valida_hora(entrada)

@@ -85,6 +85,11 @@ def valida_hora(entrada):
     else:
         print ('Error')
 
+    if n<2:
+        i = 0
+    else:
+        i = 11-n
+    return i
 
 entrada = input()
 valida_hora(entrada)

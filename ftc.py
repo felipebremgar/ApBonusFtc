@@ -168,4 +168,4 @@ def valida_preco(entrada):
 
 # def valida_cnpj(entrada):
 entrada = input()
-valida_cnpj(entrada)
+valida_preco(entrada)

@@ -15,13 +15,18 @@ def trata_entrada(entrada):
     return tratada
 
 def codtransacao (cod):
-    match1 = re.search(r"[0-9]{9}",cod)
-    match2 = re.search(r"(\w){5}",cod)
-    match3 = re.search(r"(0|2|4|6|8){3}-(0|1){3}|(0|2|4|6|8){3}",cod)
-    print (match2)
-    if match2:
-        return True
-    else:
-        return False
-i = "ta8ux"
-print(codtransacao(i))
+    cod_transacao = cod.split("-")
+    match1 = re.search(r"[0-9]{9}",cod_transacao[0])
+    match2 = re.search(r"(?!([a-z0-9])*.*\1)([a-z0-9]){5}",cod_transacao[1])
+    match3 = re.search(r"([02468]){3}",cod_transacao[2])
+    try:
+        match4 = re.search(r"([01]){3}",cod_transacao[3])
+        if (match1 and match2 and match3 and match4):
+            return ("True match4")
+        else:
+            return ("False match4")
+    except:
+        if (match1 and match2 and match3):
+            return ("True match3")
+        else:
+            return ("False match3")

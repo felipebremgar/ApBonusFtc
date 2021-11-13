@@ -14,3 +14,8 @@ def trata_entrada(entrada):
 
     return tratada
 
+def codtransacao (cod):
+    cod_transacao = cod.split("-")
+    match1 = re.search(r"[0-9]{9}",cod_transacao[0])
+    match2 = re.search(r"([\w0-9]{5})\\1",cod_transacao[0])
+    match3 = re.search(r"",cod_transacao[0])

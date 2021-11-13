@@ -5,6 +5,7 @@
 import re
 cpf_regex  = "^\d{3}\.\d{3}\.\d{3}\-\d{2}$"
 data_regex = "([12]\d{3}.(0[1-9]|1[0-2]).(0[1-9]|[12]\d|3[01]))"
+hour_regex = "^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
 
 def trata_entrada(entrada):
     tratada = entrada.split(" ") 
@@ -74,10 +75,19 @@ def valida_data(entrada):
     else:
         print ('Error')
 
+def valida_hora(entrada):
+    validacao = re.match(hour_regex, entrada)
+    if len(entrada) != 0:
+        if validacao:
+            print ('True')
+        else:
+            print ('False')
+    else:
+        print ('Error')
 
 
 entrada = input()
-valida_data(entrada)
+valida_hora(entrada)
 
 
 

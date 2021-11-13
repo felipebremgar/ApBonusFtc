@@ -45,7 +45,7 @@ def valida_formato_cpf(entrada):
     d2 = (sum(map(calc, enumerate(reversed(entrada[:-1])))) * 10) % 11
     return str(d1) == entrada[-2] and str(d2) == entrada[-1]
 
-def codtransacao (cod):
+def valida_cod_transacao (cod):
     cod_transacao = cod.split("-")
     match1 = re.search(r"[0-9]{9}",cod_transacao[0])
     match2 = re.search(r"(?!([a-z0-9])*.*\1)([a-z0-9]){5}",cod_transacao[1])

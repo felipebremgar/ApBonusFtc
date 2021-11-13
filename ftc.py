@@ -3,6 +3,8 @@
 #         277.781.070-23 39.900.653/0001-62 2016.02.29 22:33:11 [3.00,4.00,12.00] 746985321-pof32-000-111
 # invalido: 573.294.590-000 260.382.860-63 2018.03.13 14:09:59 [600.00] 666333999-bcd45-246-000
 import re
+cpf_regex  = "^\d{3}\.\d{3}\.\d{3}\-\d{2}$"
+data_regex = "([12]\d{3}.(0[1-9]|1[0-2]).(0[1-9]|[12]\d|3[01]))"
 
 def trata_entrada(entrada):
     tratada = entrada.split(" ") 
@@ -62,8 +64,20 @@ def valida_cod_transacao (cod):
         else:
             return False
 
-cpf_regex  = "^\d{3}\.\d{3}\.\d{3}\-\d{2}$"
+def valida_data(entrada):
+    validacao = re.match(data_regex, entrada)
+    if len(entrada) != 0:
+        if validacao:
+            print ('True')
+        else:
+            print ('False')
+    else:
+        print ('Error')
+
 
 
 entrada = input()
-valida_cpf(entrada)
+valida_data(entrada)
+
+
+

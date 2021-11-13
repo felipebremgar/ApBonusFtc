@@ -85,6 +85,7 @@ def valida_hora(entrada):
     else:
         print ('Error')
 
+def trata_verificador(n):
     if n<2:
         i = 0
     else:

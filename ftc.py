@@ -1,9 +1,3 @@
-# casos de teste
-# valido: 159.200.335-41 012.690.402-27 2011.11.11 17:18:30 [14.40,13.30,14.40,155.60] 658214793-ta8ux-822
-#         277.781.070-23 39.900.653/0001-62 2016.02.29 22:33:11 [3.00,4.00,12.00] 746985321-pof32-000-111
-# invalido: 573.294.590-000 260.382.860-63 2018.03.13 14:09:59 [600.00] 666333999-bcd45-246-000
-#           39.900.653/0001-62            
-
 import re
 cpf_regex  = "^\d{3}\.\d{3}\.\d{3}\-\d{2}$"
 data_regex = "([12]\d{3}.(0[1-9]|1[0-2]).(0[1-9]|[12]\d|3[01]))"
@@ -11,34 +5,45 @@ hour_regex = "^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$"
 cnpj_regex = "\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}"
 
 def trata_entrada(entrada):
-    tratada = entrada.split(" ") 
+    tratada = entrada.split(" ")
+    
     cpf_comprador = tratada[0]
     cpf_cnpj_vendedor = tratada[1]
-    data = tratada[2]
-    hora = tratada[3]
-    precos = tratada[4]
+    data_nota = tratada[2]
+    hora_nota = tratada[3]
+    precos_nota = tratada[4]
     cod_transacao = tratada[5]
+    
+    cpf = valida_cpf(cpf_comprador)
+    cnpj = verifica_cpf_cnpj(cpf_cnpj_vendedor)
+    data = valida_data(data_nota)
+    hora = valida_hora(hora_nota)
+    preco = valida_preco(precos_nota)
+    cod = valida_cod_transacao(cod_transacao)
 
-    return tratada
+    if (cpf and cnpj and data and hora and preco and cod):
+        return True
+    else:
+        return False
 
 def valida_cpf(entrada):
 	validation = re.match(cpf_regex,entrada)
 	if validation == None:
 		try:
 			if valida_formato_cpf(entrada) == True:
-				print('True')
+				return True
 			else:
-				print('False')
+				return False
 		except:
-			print('False')
+			return False
 	else:
 		entrada = re.sub("\.", "", entrada, 2)
 		entrada = re.sub("\-", "", entrada, 1)
 		
 		if valida_formato_cpf(entrada) == False:
-			print('False')
+			return False
 		else:
-			print('True')    
+			return True    
 
 def valida_formato_cpf(entrada):
     if len(entrada) < 11:
@@ -72,31 +77,31 @@ def valida_data(entrada):
     validacao = re.match(data_regex, entrada)
     if len(entrada) != 0:
         if validacao:
-            print ('True')
+            return True
         else:
-            print ('False')
+            return False
     else:
-        print ('Error')
+        return False
 
 def valida_hora(entrada):
     validacao = re.match(hour_regex, entrada)
     if len(entrada) != 0:
         if validacao:
-            return ('True')
+            return True
         else:
-            return ('False')
+            return False
     else:
-        print ('Error')
+        return False
 
 def valida_formato_cnpj(entrada):
     validacao = re.match(cnpj_regex, entrada)
     if len(entrada) != 0:
         if validacao:
-            return ('True')
+            return True
         else:
-            return ('False')
+            return False
     else:
-        print ('Error')
+        return False
 
 def valida_cnpj(entrada):
     validation = re.match(cnpj_regex,entrada)
@@ -153,19 +158,23 @@ def valida_cnpj(entrada):
         digito_calc = str(digito_1) + str(digito_2)
 
         if digito_calc == digito_ver:
-            print('True')
+            return True
         else:
-            print('False')
-    else: print ("False")
+            return False
+    else: return False
 
 def valida_preco(entrada):
     match = re.search(r"^\[([0-9]+.[0-9]{2})(,([0-9])+.([0-9]){2})*\]$", entrada)
-    print (match)
     if match:
         return True
     else:
         return False
 
-# def valida_cnpj(entrada):
+def verifica_cpf_cnpj(entrada):
+    if len(entrada) == 14:
+        return valida_cpf(entrada)
+    elif len(entrada) == 18:
+        return valida_cnpj(entrada)
+
 entrada = input()
-valida_preco(entrada)
+print (trata_entrada(entrada))
